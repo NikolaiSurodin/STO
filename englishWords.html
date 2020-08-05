@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Неправильные глаголы </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <a href="index.html">Главная</a>
+        <a href="pazzle.html">Загадки</a>
+        <a href="english.html">Неправильные глаголы</a>
+        <a href="#">Перевод английских слов</a>
+    </div>
+    <h3> Перевод слов. </h3>
+    <div class="box">
+        <p id="question"></p>
+        <input type="text" id="userAnswer">
+        <button onclick="checkAnswer()">Ok</button>
+        <p id="output"></p>
+    </div>
+    <div class="footer">
+        <p>Copyright &copy; Nikolai Surodin</p>
+    </div>
+    <script type="text/javascript">
+    var word = [
+        ["food", "еда"],
+        ["bike", "велосипед"],
+        ["apple", "яблоко"],
+        ["do", "делать"],
+        ["mean", "иметь ввиду"],
+        ["chainsaw", "бензопила"],
+        ["squirel", "белка"],
+        ["castel", "замок"],
+        ["homeland", "родина"],
+        ["sewerage", "канализация"],
+        ["bottom", "дно"],
+    ];
+    var index = null;
+    var correctAnswer = null;
+    var questionElement = document.getElementById('question');
+    var userAnswerElement = document.getElementById('userAnswer');
+    var output = document.getElementById('output');
+
+
+    function wordsQuestions() {
+        if (word.length) {
+            index = parseInt(Math.random() * word.length);
+            correctAnswer = word[index][1].toLowerCase();
+            questionElement.innerText = "Переведите слово: " + word[index][0];
+
+        } else {
+            questionElement.innerText = "Все завершено";
+        }
+        userAnswerElement.value = "";
+
+
+    }
+    wordsQuestions();
+
+    function checkAnswer() {
+        var userAnswer = userAnswerElement.value;
+        userAnswer = userAnswer.toLowerCase();
+
+        if (userAnswer == correctAnswer) {
+            word.splice(index, 1);
+            output.innerText = "Верно";
+            output.style.color = 'green';
+
+        } else {
+            output.innerText = "Не верно. Правильный ответ: " + word[index][1];
+            output.style.color = 'red';
+
+        }
+        wordsQuestions();
+
+
+
+    }
+    document.getElementById('buttonOk').onclick = checkAnswer;
+    </script>
+</body>
+
+</html>

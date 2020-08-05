@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> СТО </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <a href="index.html">Главная</a>
+        <a href="#">СТО</a>
+        <a href="english.html">Неправильные глаголы</a>
+        <a href="#">Перевод английских слов</a>
+    </div>
+    <h3> Расчет зарплаты механиков </h3>
+    <h5>Введите имя сотрудника</h5>
+    <div class="box">
+        <p id="question"></p>
+        <input type="text" id="name" placeholder="Имя">
+        <p><button id="yet">Добавить сотрудника</button></p>
+        <button id="Ok">Расчитать</button>
+        <table class="list">
+            <thead>
+                <tr>
+                    <td>№</td>
+                    <td>Имя</td>
+                    <td>Ставка</td>
+                    <td>Кол-во час</td>
+                    <td>Кол-во дней</td>
+                    <td>Зарплата</td>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
+    <div class="footer">
+        <p>Copyright &copy; Nikolai Surodin</p>
+    </div>
+    <script type="text/javascript">
+    const hourPrice = 800;
+
+
+    var mechanicObject = [];
+    var nameInput = document.getElementById('name');
+    var btnYet = document.getElementById('yet');
+    var btnOk = document.getElementById('Ok');
+    var tbody = document.getElementById('tbody');
+
+
+    class Mechanic {
+        constructor(name) {
+            this.name = name;
+            this.hoursPerDay = 0;
+            this.lastSalary = 0;
+            this.daysWorked = 0;
+            this.coeff = 0;
+
+
+        }
+
+        getSalary(price) {
+            this.lastSalary = this.hoursPerDay * this.daysWorked * price * this.coeff;
+            return this.lastSalary;
+
+        }
+        setHoursPerDay(hoursPerDay) {
+            this.hoursPerDay = hoursPerDay;
+        }
+
+        setCoeef(coeff) {
+            this.coeff = coeff;
+        }
+        setDaysWorked(days) {
+            this.daysWorked = days;
+        }
+    }
+
+    function mechanicPlus() {
+
+        if (nameInput.value === "") {
+            alert("Введите имя");
+            return;
+        }
+
+
+
+        mechanicObject.push(new Mechanic(nameInput.value));
+        console.log(mechanicObject);
+        nameInput.value = "";
+
+        nameInput.focus();
+        tbody.innerHTML = ""; // очистка тела таблицы
+        for (var i = 0; i < mechanicObject.length; i++) {
+            let tr = document.createElement("tr");
+            console.log(i);
+
+            let tdNo = document.createElement("td");
+            tdNo.innerText = i + 1;
+            tr.append(tdNo);
+            console.log(tdNo);
+
+            let tdName = document.createElement("td");
+            tdName.innerText = mechanicObject[i].name;
+            tr.append(tdName);
+
+            let coeff = document.createElement("td");
+            let coeffInput = document.createElement("input");
+            coeffInput.type = "number";
+            coeffInput.step = "0.1"
+            coeffInput.min = 0;
+            coeffInput.id = "c" + i;
+            coeffInput.value = mechanicObject[i].coeff;
+            coeff.append(coeffInput);
+            tr.append(coeff);
+
+            let hours = document.createElement("td");
+            let hoursInput = document.createElement("input");
+            hoursInput.type = "number";
+            hoursInput.min = 0;
+            hoursInput.id = "h" + i; // h - час
+            hoursInput.value = mechanicObject[i].hoursPerDay;
+            hours.append(hoursInput);
+            tr.append(hours);
+
+            let days = document.createElement("td");
+            let daysInput = document.createElement("input");
+            daysInput.type = "number";
+            daysInput.min = 0;
+            daysInput.id = "d" + i;
+            daysInput.value = mechanicObject[i].days;
+            days.append(daysInput);
+            tr.append(days);
+
+
+
+            let salary = document.createElement("td");
+            salary.id = "s" + i; // s - зарплата 
+            salary.innerText = mechanicObject[i].lastSalary;
+            tr.append(salary);
+
+            tbody.append(tr);
+
+
+
+        }
+    }
+    btnYet.addEventListener('click', mechanicPlus);
+    var result = 0;
+
+    function hours() {
+
+
+        result = 0;
+        let i = 0;
+        for (let m of mechanicObject) {
+            let hours = document.getElementById("h" + i).value;
+            let coeff = document.getElementById("c" + i).value;
+            let days = document.getElementById("d" + i).value;
+            m.setDaysWorked(days);
+            m.setHoursPerDay(hours);
+            m.setCoeef(coeff);
+
+            result = (m.getSalary(hourPrice));
+            document.getElementById("s" + i).innerText = result;
+            i++;
+
+        }
+
+
+    }
+
+
+
+    btnOk.addEventListener('click', hours);
+    </script>
+</body>
+
+</html>
