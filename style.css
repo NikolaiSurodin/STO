@@ -37,19 +37,19 @@ body {
 }
 
 .list {
-    border: 1px solid black;
+    border: 1px solid grey;
     border-collapse: collapse;
     width: 100%;
 
 }
 
 .list td {
-    border: 1px solid black;
+    border: 1px solid grey;
     border-collapse: collapse;
 
 }
 
 .list th {
-    border: 1px solid black;
+    border: 1px solid grey;
     border-collapse: collapse;
 }
